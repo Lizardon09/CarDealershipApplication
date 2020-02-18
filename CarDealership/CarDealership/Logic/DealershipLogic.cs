@@ -82,7 +82,11 @@ namespace CarDealership.Logic
                         SellVehicle(input);
                         break;
                     case "D":
-                        RecordVehicle(input);
+                        foreach (var vehicle in Vehicles)
+                        {
+                            vehicle.DisplayVehicle();
+                            Console.WriteLine();
+                        }
                         break;
                     default:
                         Console.WriteLine("\nInvalid Command, please try again\n");
@@ -98,6 +102,7 @@ namespace CarDealership.Logic
         private void RecordVehicle(string input)
         {
             BoughtVehicle = new Vehicle();
+            Array enumoptions;
 
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nRecord Bought Vehicle:\n");
@@ -198,9 +203,11 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nPlease select vehicle type from following\n\n");
 
-            foreach (var type in Enum.GetNames(typeof(VehicleType)))
+            enumoptions = Enum.GetNames(typeof(VehicleType));
+
+            for (int i = 0; i < enumoptions.Length; i++)
             {
-                Console.WriteLine(type+"\n");
+                Console.WriteLine($"({i}) : {enumoptions.GetValue(i)}\n");
             }
 
             do
@@ -209,9 +216,9 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (Enum.IsDefined(typeof(VehicleType), input))
+                    if (Convert.ToInt32(input) >=0 && Convert.ToInt32(input)<enumoptions.Length)
                     {
-                        BoughtVehicle.TypeOfVehicle = (VehicleType)Enum.Parse(typeof(VehicleType), input); 
+                        BoughtVehicle.TypeOfVehicle = (VehicleType)Enum.Parse(typeof(VehicleType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString());
                         break;
                     }
                     Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
@@ -227,9 +234,11 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nPlease select vehicle color from following\n\n");
 
-            foreach (var type in Enum.GetNames(typeof(ColorType)))
+            enumoptions = Enum.GetNames(typeof(ColorType));
+
+            for (int i = 0; i < enumoptions.Length; i++)
             {
-                Console.WriteLine(type+ "\n");
+                Console.WriteLine($"({i}) : {enumoptions.GetValue(i)}\n");
             }
 
             do
@@ -238,17 +247,17 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (Enum.IsDefined(typeof(ColorType), input))
+                    if (Convert.ToInt32(input)>=0 && Convert.ToInt32(input)<enumoptions.Length)
                     {
 
-                        if( (ColorType)Enum.Parse(typeof(ColorType), input) == ColorType.Metalic && (BoughtVehicle.TypeOfVehicle==VehicleType.Truck || BoughtVehicle.TypeOfVehicle == VehicleType.Bus))
+                        if ((ColorType)Enum.Parse(typeof(ColorType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString()) == ColorType.Metalic && (BoughtVehicle.TypeOfVehicle == VehicleType.Truck || BoughtVehicle.TypeOfVehicle == VehicleType.Bus))
                         {
                             Console.WriteLine($"{VehicleType.Truck} and {VehicleType.Bus} are not allowed to have metallic, input valid vehicle color.");
                         }
 
                         else
                         {
-                            BoughtVehicle.ColorShade = (ColorType)Enum.Parse(typeof(ColorType), input);
+                            BoughtVehicle.ColorShade = (ColorType)Enum.Parse(typeof(ColorType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString());
                             break;
                         }
 
@@ -266,9 +275,11 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nPlease select vehicle service history from following\n\n");
 
-            foreach (var type in Enum.GetNames(typeof(ServiceType)))
+            enumoptions = Enum.GetNames(typeof(ServiceType));
+
+            for (int i = 0; i < enumoptions.Length; i++)
             {
-                Console.WriteLine(type + "\n");
+                Console.WriteLine($"({i}) : {enumoptions.GetValue(i)}\n");
             }
 
             do
@@ -277,9 +288,9 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (Enum.IsDefined(typeof(ServiceType), input))
+                    if (Convert.ToInt32(input)>=0 && Convert.ToInt32(input)<enumoptions.Length)
                     {
-                        BoughtVehicle.ServiceHistory = (ServiceType)Enum.Parse(typeof(ServiceType), input);
+                        BoughtVehicle.ServiceHistory = (ServiceType)Enum.Parse(typeof(ServiceType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString());
                         break;
                     }
                     Console.WriteLine("\nInvalid input, please input valid vehicle service history.\n");
@@ -295,9 +306,11 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nPlease select vehicle specification level from following\n\n");
 
-            foreach (var type in Enum.GetNames(typeof(SpecificationType)))
+            enumoptions = Enum.GetNames(typeof(SpecificationType));
+
+            for (int i = 0; i < enumoptions.Length; i++)
             {
-                Console.WriteLine(type+ "\n");
+                Console.WriteLine($"({i}) : {enumoptions.GetValue(i)}\n");
             }
 
             do
@@ -306,9 +319,9 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (Enum.IsDefined(typeof(SpecificationType), input))
+                    if (Convert.ToInt32(input)>=0 && Convert.ToInt32(input)<enumoptions.Length)
                     {
-                        BoughtVehicle.SpecificationLevel = (SpecificationType)Enum.Parse(typeof(SpecificationType), input);
+                        BoughtVehicle.SpecificationLevel = (SpecificationType)Enum.Parse(typeof(SpecificationType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString());
                         break;
                     }
                     Console.WriteLine("\nInvalid input, please input valid vehicle specification level.\n");
@@ -318,6 +331,8 @@ namespace CarDealership.Logic
                     Console.WriteLine("\nInvalid input, please input valid vehicle specification level.\n");
                 }
             } while (true);
+
+            //--------------------------------------------------------------------------------------
 
             Console.WriteLine("\n---------------------------------------------\n");
             do
@@ -355,44 +370,18 @@ namespace CarDealership.Logic
             VehicleType vehicleType;
             Vehicle vehicletosell;
             string maketosort;
+            Array enumoptions;
+
+            enumoptions = Enum.GetNames(typeof(VehicleType));
 
             //--------------------------------------------------------------------------------------
 
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nPlease select vehicle type from following\n\n");
 
-                foreach (var type in Enum.GetNames(typeof(VehicleType)))
-                {
-                    Console.WriteLine(type + "\n");
-                }
-
-                do
-                {
-                    input = Console.ReadLine();
-
-                    try
-                    {
-                        if (Enum.IsDefined(typeof(VehicleType), input))
-                        {
-                            vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), input);
-                            break;
-                        }
-                        Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
-                    }
-                } while (true);
-
-            //--------------------------------------------------------------------------------------
-
-            Console.WriteLine("\n---------------------------------------------\n");
-            Console.WriteLine("\nPlease select vehicle make from following:\n\n");
-            foreach (var make in MakeFilter)
+            for (int i = 0; i < enumoptions.Length; i++)
             {
-                if (Vehicles.Exists(x=>x.Make==make && x.TypeOfVehicle == vehicleType))
-                    Console.WriteLine(make+"\n");
+                Console.WriteLine($"({i}): {enumoptions.GetValue(i)}");
             }
 
             do
@@ -401,9 +390,39 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (Vehicles.Exists(x => x.Make == input && x.TypeOfVehicle == vehicleType))
+                    if (Convert.ToInt32(input)>=0 && Convert.ToInt32(input)<enumoptions.Length)
                     {
-                        maketosort = input;
+                        vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString());
+                        break;
+                    }
+                    Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
+                }
+            } while (true);
+
+            //--------------------------------------------------------------------------------------
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nPlease select vehicle make from following:\n\n");
+
+            for (int i = 0; i < MakeFilter.Count; i++)
+            {
+                if (Vehicles.Exists(x => x.Make == MakeFilter[i] && x.TypeOfVehicle == vehicleType))
+                    Console.WriteLine($"({i}): {MakeFilter[i]}\n");
+            }
+
+            do
+            {
+                input = Console.ReadLine();
+
+                try
+                {
+                    if (Vehicles.Exists(x => x.Make == MakeFilter[Convert.ToInt32(input)] && x.TypeOfVehicle == vehicleType))
+                    {
+                        maketosort = MakeFilter[Convert.ToInt32(input)];
                         break;
                     }
                     Console.WriteLine("\nInvalid input, please input valid vehicle ID.\n");
