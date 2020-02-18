@@ -8,10 +8,8 @@ namespace CarDealership
     {
         static void Main(string[] args)
         {
-            string input="";
             DealershipLogic VarunsMotors = new DealershipLogic();
-            //VarunsMotors.RecordVehicle(input);
-            VarunsMotors.SellVehicle(input);
+            VarunsMotors.Run();
 
             Console.ReadKey();
         }

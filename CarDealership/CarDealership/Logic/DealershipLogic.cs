@@ -59,7 +59,43 @@ namespace CarDealership.Logic
             }
         }
 
-        public void RecordVehicle(string input)
+        public void Run()
+        {
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nPlease select one of the following options:\n\n");
+            Console.WriteLine("\nRecord vehicles: R\n");
+            Console.WriteLine("\nSell vehicles: S\n");
+            Console.WriteLine("\nDisplay vehicles: D\n");
+            Console.WriteLine("\nEnd Program: E\n");
+
+            string input;
+
+            do
+            {
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "R":
+                        RecordVehicle(input);
+                        break;
+                    case "S":
+                        SellVehicle(input);
+                        break;
+                    case "D":
+                        RecordVehicle(input);
+                        break;
+                    default:
+                        Console.WriteLine("\nInvalid Command, please try again\n");
+                        break;
+                }
+
+            } while (input!="E");
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nProgram has ended...\n\n");
+        }
+
+        private void RecordVehicle(string input)
         {
             BoughtVehicle = new Vehicle();
 
@@ -314,7 +350,7 @@ namespace CarDealership.Logic
             BoughtVehicle.DisplayVehicle();
         }
 
-        public void SellVehicle(string input)
+        private void SellVehicle(string input)
         {
             VehicleType vehicleType;
             Vehicle vehicletosell;
@@ -433,8 +469,7 @@ namespace CarDealership.Logic
 
         }
 
-
-        public double CalculateSalePrice(Vehicle vehicle)
+        private double CalculateSalePrice(Vehicle vehicle)
         {
             double saleprice = vehicle.BasePrice;
             double extrapercent = 0;
