@@ -33,14 +33,16 @@ namespace CarDealership.Models
 
     public class Vehicle
     {
-        public static int ID { get; set; }
-        public static Dictionary<KeyValuePair<int, int>, int> DefaultMillegeBrackets { get; set; }
-        public static Dictionary<KeyValuePair<int, int>, int> DefaultYearBrackets { get; set; }
+        public int ID { get; set; }
 
-        public static Dictionary<VehicleType, Dictionary<KeyValuePair<int, int>, int>> ExtraMillegeCosts { get; set; }
-        public static Dictionary<VehicleType, Dictionary<KeyValuePair<int, int>, int>> ExtraYearCosts { get; set; }
-        public static Dictionary<VehicleType, KeyValuePair<SpecificationType,int>> ExtraSpecificationCost { get; set; }
-        public static Dictionary<VehicleType, KeyValuePair<ServiceType, int>> ExtraServiceHistoryCost { get; set; }
+        private static int AccumultatedID { get; set; } = 0;
+
+        public static Dictionary<KeyValuePair<KeyValuePair<int, int>, int>, Dictionary<VehicleType, int>> MillegeBrackets { get; set; }
+
+        public static Dictionary<KeyValuePair<KeyValuePair<int, int>, int>, Dictionary<VehicleType, int>> YearBrackets { get; set; }
+
+        public static Dictionary<VehicleType, Dictionary<SpecificationType,int>> ExtraSpecificationCost { get; set; }
+        public static Dictionary<VehicleType, Dictionary<ServiceType, int>> ExtraServiceHistoryCost { get; set; }
 
         public int Millege { get; set; }
         public SpecificationType SpecificationLevel { get; set; }
@@ -50,12 +52,44 @@ namespace CarDealership.Models
         public int Year { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
-        public double BasePrice { get; private set; }
-        public double SalePrice { get; private set; }
+        public double BasePrice { get; set; }
+        public double SalePrice { get; set; }
         
         public Vehicle()
         {
-            ID++;
+            ID = AccumultatedID;
+            AccumultatedID++;
+        }
+
+        public Vehicle(int millege, SpecificationType spectype, ServiceType servtype, ColorType color, VehicleType typeofvehicle, int year, string make, string model, double baseprice)
+        {
+            ID = AccumultatedID;
+            AccumultatedID++;
+            Millege = millege;
+            SpecificationLevel = spectype;
+            ServiceHistory = servtype;
+            ColorShade = color;
+            TypeOfVehicle = typeofvehicle;
+            Year = year;
+            Make = make;
+            Model = model;
+            BasePrice = baseprice;
+        }
+
+        public void DisplayVehicle()
+        {
+            Console.WriteLine($"\nVehicle Details:\n" +
+                              $"\nID: {ID}" +
+                              $"\nMillege: {Millege}" +
+                              $"\nSpecification Level: {SpecificationLevel}" +
+                              $"\nColorShade: {ColorShade}" +
+                              $"\nTypeOfVehicle: {TypeOfVehicle}" +
+                              $"\nYear: {Year}" +
+                              $"\nMake: {Make}" +
+                              $"\nModel: {Model}" +
+                              $"\nBasePrice: R{BasePrice}" +
+                              $"\nSalePrice: R{SalePrice}" +
+                              $"\nProfit: R{SalePrice-BasePrice}\n");
         }
 
     }

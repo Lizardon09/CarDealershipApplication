@@ -1,12 +1,19 @@
 ﻿using System;
+using CarDealership.Logic;
+using CarDealership.Models;
 
 namespace CarDealership
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string input="";
+            DealershipLogic VarunsMotors = new DealershipLogic();
+            //VarunsMotors.RecordVehicle(input);
+            VarunsMotors.SellVehicle(input);
+
+            Console.ReadKey();
         }
     }
 }
