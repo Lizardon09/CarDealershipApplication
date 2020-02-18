@@ -157,7 +157,7 @@ namespace CarDealership.Logic
                 {
                     if (input.All(Char.IsLetter))
                     {
-                        BoughtVehicle.Make = input;
+                        BoughtVehicle.Make = input.ToUpper(); ;
                         break;
                     }
                     Console.WriteLine("\nMake cannot contain numbers, please try again\n");
