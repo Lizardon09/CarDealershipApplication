@@ -43,7 +43,17 @@ namespace CarDealership.Logic
                 new Vehicle(90000, SpecificationType.Medium, ServiceType.Minor, ColorType.Metalic, VehicleType.Car, 2006, "Toyota", "T600", 300000),
                 new Vehicle(200000, SpecificationType.Low, ServiceType.Full, ColorType.Metalic, VehicleType.Car, 2014, "Honda", "H5023", 167500),
                 new Vehicle(360000, SpecificationType.Low, ServiceType.Minor, ColorType.Flat, VehicleType.Truck, 2008, "Toyota", "T634", 320000),
-                new Vehicle(110000, SpecificationType.Medium, ServiceType.Full, ColorType.Flat, VehicleType.Bus, 2013, "Toyota", "T950", 280000)
+                new Vehicle(110000, SpecificationType.Medium, ServiceType.Full, ColorType.Flat, VehicleType.Bus, 2013, "Toyota", "T950", 280000),
+
+                new Vehicle(110000, SpecificationType.Low, ServiceType.None, ColorType.Flat, VehicleType.Bus, 2013, "BMW", "S300", 245000),
+                new Vehicle(134000, SpecificationType.Medium, ServiceType.None, ColorType.Flat, VehicleType.Truck, 2005, "BMW", "Z20", 155000),
+                new Vehicle(195000, SpecificationType.High, ServiceType.Minor, ColorType.Flat, VehicleType.Car, 2015, "Honda", "H50T", 167500),
+                new Vehicle(200000, SpecificationType.Medium, ServiceType.Full, ColorType.Flat, VehicleType.Truck, 2016, "Toyota", "T560", 190000),
+                new Vehicle(85000, SpecificationType.High, ServiceType.Full, ColorType.Flat, VehicleType.Car, 2013, "Toyota", "T600", 290000),
+                new Vehicle(220000, SpecificationType.Medium, ServiceType.Minor, ColorType.Metalic, VehicleType.Car, 2016, "Honda", "H5023", 180000),
+                new Vehicle(330000, SpecificationType.Medium, ServiceType.None, ColorType.Flat, VehicleType.Truck, 2009, "Toyota", "T634", 280000),
+                new Vehicle(115000, SpecificationType.Low, ServiceType.None, ColorType.Flat, VehicleType.Bus, 2011, "Toyota", "T950", 265700)
+
             };
 
             MakeFilter = new List<string>();
@@ -67,10 +77,11 @@ namespace CarDealership.Logic
             {
                 Console.WriteLine("\n---------------------------------------------\n");
                 Console.WriteLine("\nPlease select one of the following options:\n\n");
-                Console.WriteLine("\n(R): Record vehicles\n");
-                Console.WriteLine("\n(S): Sell vehicles\n");
-                Console.WriteLine("\n(D): Display vehicles\n");
-                Console.WriteLine("\n(E) End Program\n");
+                Console.WriteLine("\n(R): Record vehicles\n" +
+                                  "\n(S): Sell vehicles\n" +
+                                  "\n(D): Display vehicles\n" +
+                                  "\n(DF) Display vehicles by filter\n" +
+                                  "\n(E) End Program\n");
 
                 input = Console.ReadLine();
                 switch (input.ToUpper())
@@ -87,6 +98,9 @@ namespace CarDealership.Logic
                             vehicle.DisplayVehicle();
                             Console.WriteLine();
                         }
+                        break;
+                    case "DF":
+                        FilteredDisplay(input);
                         break;
                     case "E":
                         Console.WriteLine("\n---------------------------------------------\n");
@@ -157,13 +171,15 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             do
             {
-                Console.WriteLine("\nPlease enter make of vehicle:\n");
+                Console.WriteLine("\nPlease enter make of vehicle (press enter if make is unknown)):\n");
                 input = Console.ReadLine();
 
                 try
                 {
                     if (input.All(Char.IsLetter))
                     {
+                        if (String.IsNullOrEmpty(input) || String.IsNullOrWhiteSpace(input))
+                            input = "Other";
                         BoughtVehicle.Make = input.ToUpper();
                         break;
                     }
@@ -188,6 +204,8 @@ namespace CarDealership.Logic
                 {
                     if (input.All(Char.IsLetterOrDigit))
                     {
+                        if (String.IsNullOrEmpty(input) || String.IsNullOrWhiteSpace(input))
+                            input = "Unspecified";
                         BoughtVehicle.Model = input.ToUpper();
                         break;
                     }
@@ -377,6 +395,7 @@ namespace CarDealership.Logic
             VehicleType vehicleType;
             Vehicle vehicletosell;
             string maketosort;
+            string modeltosort;
             Array enumoptions;
 
             enumoptions = Enum.GetNames(typeof(VehicleType));
@@ -432,11 +451,41 @@ namespace CarDealership.Logic
                         maketosort = MakeFilter[Convert.ToInt32(input)];
                         break;
                     }
-                    Console.WriteLine("\nInvalid input, please input valid vehicle ID.\n");
+                    Console.WriteLine("\nInvalid input, please input valid vehicle make code.\n");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("\nInvalid input, please input valid vehicle ID.\n");
+                    Console.WriteLine("\nInvalid input, please input valid vehicle make code.\n");
+                }
+            } while (true);
+
+            //--------------------------------------------------------------------------------------
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nPlease select vehicle nodel from following:\n\n");
+
+            for (int i = 0; i < ModelFilter.Count; i++)
+            {
+                if (Vehicles.Exists(x => x.Make == maketosort && x.Model==ModelFilter[i] && x.TypeOfVehicle == vehicleType))
+                    Console.WriteLine($"({i}): {ModelFilter[i]}\n");
+            }
+
+            do
+            {
+                input = Console.ReadLine();
+
+                try
+                {
+                    if (Vehicles.Exists(x => x.Model == ModelFilter[Convert.ToInt32(input)] && x.TypeOfVehicle == vehicleType && x.Make==maketosort))
+                    {
+                        modeltosort = ModelFilter[Convert.ToInt32(input)];
+                        break;
+                    }
+                    Console.WriteLine("\nInvalid input, please input valid vehicle model code.\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\nInvalid input, please input valid model code.\n");
                 }
             } while (true);
 
@@ -446,7 +495,7 @@ namespace CarDealership.Logic
             Console.WriteLine("\nPlease select ID from following:\n\n");
             foreach (var vehicle in Vehicles)
             {
-                if (vehicle.TypeOfVehicle == vehicleType && vehicle.Make==maketosort)
+                if (vehicle.TypeOfVehicle == vehicleType && vehicle.Make==maketosort && vehicle.Model==modeltosort)
                     vehicle.DisplayVehicle();
             }
 
@@ -456,7 +505,7 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (Vehicles.Exists(x=>x.ID==Convert.ToInt32(input) && x.TypeOfVehicle==vehicleType && x.Make==maketosort))
+                    if (Vehicles.Exists(x=>x.ID==Convert.ToInt32(input) && x.TypeOfVehicle==vehicleType && x.Make==maketosort && x.Model==modeltosort))
                     {
                         vehicletosell = Vehicles.Find(x => x.ID == Convert.ToInt32(input));
                         break;
@@ -499,6 +548,117 @@ namespace CarDealership.Logic
                 }
 
             } while (input.ToUpper()!="Y" && input.ToUpper()!= "N");
+        }
+
+        private void FilteredDisplay(string input)
+        {
+            VehicleType vehicleType;
+            string maketosort;
+            string modeltosort;
+            Array enumoptions;
+
+            enumoptions = Enum.GetNames(typeof(VehicleType));
+
+            //--------------------------------------------------------------------------------------
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nPlease select vehicle type from following\n\n");
+
+            for (int i = 0; i < enumoptions.Length; i++)
+            {
+                Console.WriteLine($"({i}): {enumoptions.GetValue(i)}");
+            }
+
+            do
+            {
+                input = Console.ReadLine();
+
+                try
+                {
+                    if (Convert.ToInt32(input) >= 0 && Convert.ToInt32(input) < enumoptions.Length)
+                    {
+                        vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), (enumoptions.GetValue(Convert.ToInt32(input))).ToString());
+                        break;
+                    }
+                    Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\nInvalid input, please input valid vehicle type.\n");
+                }
+            } while (true);
+
+            //--------------------------------------------------------------------------------------
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nPlease select vehicle make from following:\n\n");
+
+            for (int i = 0; i < MakeFilter.Count; i++)
+            {
+                if (Vehicles.Exists(x => x.Make == MakeFilter[i] && x.TypeOfVehicle == vehicleType))
+                    Console.WriteLine($"({i}): {MakeFilter[i]}\n");
+            }
+
+            do
+            {
+                input = Console.ReadLine();
+
+                try
+                {
+                    if (Vehicles.Exists(x => x.Make == MakeFilter[Convert.ToInt32(input)] && x.TypeOfVehicle == vehicleType))
+                    {
+                        maketosort = MakeFilter[Convert.ToInt32(input)];
+                        break;
+                    }
+                    Console.WriteLine("\nInvalid input, please input valid vehicle make code.\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\nInvalid input, please input valid vehicle make code.\n");
+                }
+            } while (true);
+
+            //--------------------------------------------------------------------------------------
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine("\nPlease select vehicle nodel from following:\n\n");
+
+            for (int i = 0; i < ModelFilter.Count; i++)
+            {
+                if (Vehicles.Exists(x => x.Make == maketosort && x.Model == ModelFilter[i] && x.TypeOfVehicle == vehicleType))
+                    Console.WriteLine($"({i}): {ModelFilter[i]}\n");
+            }
+
+            do
+            {
+                input = Console.ReadLine();
+
+                try
+                {
+                    if (Vehicles.Exists(x => x.Model == ModelFilter[Convert.ToInt32(input)] && x.TypeOfVehicle == vehicleType && x.Make == maketosort))
+                    {
+                        modeltosort = ModelFilter[Convert.ToInt32(input)];
+                        break;
+                    }
+                    Console.WriteLine("\nInvalid input, please input valid vehicle model code.\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\nInvalid input, please input valid model code.\n");
+                }
+            } while (true);
+
+            //--------------------------------------------------------------------------------------
+
+            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine($"\nVehicle Type: {vehicleType}" +
+                              $"\nVehicle Make: {maketosort}" +
+                              $"\nVehicle Model: {modeltosort}\n\n");
+            foreach (var vehicle in Vehicles)
+            {
+                if (vehicle.TypeOfVehicle == vehicleType && vehicle.Make == maketosort && vehicle.Model == modeltosort)
+                    vehicle.DisplayVehicle();
+            }
         }
 
         private double CalculateSalePrice(Vehicle vehicle)
