@@ -52,8 +52,16 @@ namespace CarDealership.Logic
                 new Vehicle(85000, SpecificationType.High, ServiceType.Full, ColorType.Flat, VehicleType.Car, 2013, "Toyota", "T600", 290000),
                 new Vehicle(220000, SpecificationType.Medium, ServiceType.Minor, ColorType.Metalic, VehicleType.Car, 2016, "Honda", "H5023", 180000),
                 new Vehicle(330000, SpecificationType.Medium, ServiceType.None, ColorType.Flat, VehicleType.Truck, 2009, "Toyota", "T634", 280000),
-                new Vehicle(115000, SpecificationType.Low, ServiceType.None, ColorType.Flat, VehicleType.Bus, 2011, "Toyota", "T950", 265700)
+                new Vehicle(115000, SpecificationType.Low, ServiceType.None, ColorType.Flat, VehicleType.Bus, 2011, "Toyota", "T950", 265700),
 
+                new Vehicle(110000, SpecificationType.Low, ServiceType.None, ColorType.Flat, VehicleType.Bus, 2013, "BMW", "S360", 245000),
+                new Vehicle(134000, SpecificationType.Medium, ServiceType.None, ColorType.Flat, VehicleType.Truck, 2005, "BMW", "F420", 155000),
+                new Vehicle(195000, SpecificationType.High, ServiceType.Minor, ColorType.Flat, VehicleType.Car, 2015, "Honda", "H750", 167500),
+                new Vehicle(200000, SpecificationType.Medium, ServiceType.Full, ColorType.Flat, VehicleType.Truck, 2016, "Toyota", "T750", 190000),
+                new Vehicle(85000, SpecificationType.High, ServiceType.Full, ColorType.Flat, VehicleType.Car, 2013, "Toyota", "T250", 290000),
+                new Vehicle(220000, SpecificationType.Medium, ServiceType.Minor, ColorType.Metalic, VehicleType.Car, 2016, "Honda", "H340", 180000),
+                new Vehicle(330000, SpecificationType.Medium, ServiceType.None, ColorType.Flat, VehicleType.Truck, 2009, "Toyota", "T890", 280000),
+                new Vehicle(115000, SpecificationType.Low, ServiceType.None, ColorType.Flat, VehicleType.Bus, 2011, "Toyota", "T120", 265700)
             };
 
             MakeFilter = new List<string>();
