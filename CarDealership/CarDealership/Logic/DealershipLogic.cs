@@ -61,19 +61,19 @@ namespace CarDealership.Logic
 
         public void Run()
         {
-            Console.WriteLine("\n---------------------------------------------\n");
-            Console.WriteLine("\nPlease select one of the following options:\n\n");
-            Console.WriteLine("\nRecord vehicles: R\n");
-            Console.WriteLine("\nSell vehicles: S\n");
-            Console.WriteLine("\nDisplay vehicles: D\n");
-            Console.WriteLine("\nEnd Program: E\n");
-
             string input;
 
             do
             {
+                Console.WriteLine("\n---------------------------------------------\n");
+                Console.WriteLine("\nPlease select one of the following options:\n\n");
+                Console.WriteLine("\n(R): Record vehicles\n");
+                Console.WriteLine("\n(S): Sell vehicles\n");
+                Console.WriteLine("\n(D): Display vehicles\n");
+                Console.WriteLine("\n(E) End Program\n");
+
                 input = Console.ReadLine();
-                switch (input)
+                switch (input.ToUpper())
                 {
                     case "R":
                         RecordVehicle(input);
@@ -88,6 +88,10 @@ namespace CarDealership.Logic
                             Console.WriteLine();
                         }
                         break;
+                    case "E":
+                        Console.WriteLine("\n---------------------------------------------\n");
+                        Console.WriteLine("\nProgram has ended...\n\n");
+                        break;
                     default:
                         Console.WriteLine("\nInvalid Command, please try again\n");
                         break;
@@ -95,8 +99,6 @@ namespace CarDealership.Logic
 
             } while (input!="E");
 
-            Console.WriteLine("\n---------------------------------------------\n");
-            Console.WriteLine("\nProgram has ended...\n\n");
         }
 
         private void RecordVehicle(string input)
@@ -136,12 +138,12 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (int.Parse(input) > 0)
+                    if (int.Parse(input) > 0 && int.Parse(input) <= DateTime.Now.Year)
                     {
                         BoughtVehicle.Year = int.Parse(input);
                         break;
                     }
-                    Console.WriteLine("\nValue must be greater than 0, please try again\n");
+                    Console.WriteLine($"\nValue must be greater than 0 and less than or eaqual to {DateTime.Now.Year}, please try again\n");
 
                 }
                 catch (Exception ex)
@@ -162,7 +164,7 @@ namespace CarDealership.Logic
                 {
                     if (input.All(Char.IsLetter))
                     {
-                        BoughtVehicle.Make = input.ToUpper(); ;
+                        BoughtVehicle.Make = input.ToUpper();
                         break;
                     }
                     Console.WriteLine("\nMake cannot contain numbers, please try again\n");
@@ -186,7 +188,7 @@ namespace CarDealership.Logic
                 {
                     if (input.All(Char.IsLetterOrDigit))
                     {
-                        BoughtVehicle.Model = input;
+                        BoughtVehicle.Model = input.ToUpper();
                         break;
                     }
                     Console.WriteLine("\nInvalid input, please input model of vehicle.\n");
@@ -363,6 +365,11 @@ namespace CarDealership.Logic
             Vehicles.Add(BoughtVehicle);
             Console.WriteLine("\nVehicle added successfully!!:\n");
             BoughtVehicle.DisplayVehicle();
+
+            if (!MakeFilter.Contains(BoughtVehicle.Make))
+                MakeFilter.Add(BoughtVehicle.Make);
+            if (!ModelFilter.Contains(BoughtVehicle.Model))
+                ModelFilter.Add(BoughtVehicle.Model);
         }
 
         private void SellVehicle(string input)
@@ -473,19 +480,25 @@ namespace CarDealership.Logic
             {
                 input = Console.ReadLine();
 
-                switch (input)
+                switch (input.ToUpper())
                 {
                     case "Y":
                         Vehicles.Remove(vehicletosell);
+                        if (!Vehicles.Exists(x => x.Make == vehicletosell.Make))
+                            MakeFilter.Remove(vehicletosell.Make);
+                        if (!Vehicles.Exists(x => x.Make == vehicletosell.Model))
+                            ModelFilter.Remove(vehicletosell.Model);
                         Console.WriteLine("\nPurchase Made!!");
                         break;
                     case "N":
                         Console.WriteLine("\nPurchase Cancelled!!");
                         break;
+                    default:
+                        Console.WriteLine("\nInvalid input, please enter Y/N\n");
+                        break;
                 }
 
-            } while (true);
-
+            } while (input.ToUpper()!="Y" && input.ToUpper()!= "N");
         }
 
         private double CalculateSalePrice(Vehicle vehicle)
