@@ -35,7 +35,7 @@ namespace CarDealership.Models
     {
         public int ID { get; set; }
 
-        private static int AccumultatedID { get; set; } = 0;
+        private static int AccumultatedID { get; set; } = 1;
 
         public static Dictionary<KeyValuePair<KeyValuePair<int, int>, int>, Dictionary<VehicleType, int>> MillegeBrackets { get; set; }
 

@@ -16,6 +16,8 @@ namespace CarDealership.Logic
 
         private Vehicle BoughtVehicle { get; set; }
 
+        private Array enumoptions;
+
         public DealershipLogic()
         {
             Vehicle.MillegeBrackets = new Dictionary<KeyValuePair<KeyValuePair<int, int>, int>, Dictionary<VehicleType, int>>();
@@ -85,10 +87,10 @@ namespace CarDealership.Logic
             {
                 Console.WriteLine("\n---------------------------------------------\n");
                 Console.WriteLine("\nPlease select one of the following options:\n\n");
-                Console.WriteLine("\n(R): Record vehicles\n" +
-                                  "\n(S): Sell vehicles\n" +
-                                  "\n(D): Display vehicles\n" +
-                                  "\n(DF) Display vehicles by filter\n" +
+                Console.WriteLine("\n(R): Record dealership bought vehicle\n" +
+                                  "\n(S): Sell vehicle to customer\n" +
+                                  "\n(D): Display all vehicles in stock\n" +
+                                  "\n(DF) Display vehicles by filter options\n" +
                                   "\n(E) End Program\n");
 
                 input = Console.ReadLine();
@@ -119,14 +121,13 @@ namespace CarDealership.Logic
                         break;
                 }
 
-            } while (input!="E");
+            } while (input.ToUpper()!="E");
 
         }
 
         private void RecordVehicle(string input)
         {
             BoughtVehicle = new Vehicle();
-            Array enumoptions;
 
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine("\nRecord Bought Vehicle:\n");
@@ -404,7 +405,6 @@ namespace CarDealership.Logic
             Vehicle vehicletosell;
             string maketosort;
             string modeltosort;
-            Array enumoptions;
 
             enumoptions = Enum.GetNames(typeof(VehicleType));
 
@@ -563,7 +563,6 @@ namespace CarDealership.Logic
             VehicleType vehicleType;
             string maketosort;
             string modeltosort;
-            Array enumoptions;
 
             enumoptions = Enum.GetNames(typeof(VehicleType));
 
@@ -574,7 +573,7 @@ namespace CarDealership.Logic
 
             for (int i = 0; i < enumoptions.Length; i++)
             {
-                Console.WriteLine($"({i}): {enumoptions.GetValue(i)}");
+                Console.WriteLine($"({i}): {enumoptions.GetValue(i)}\n");
             }
 
             do
@@ -768,6 +767,5 @@ namespace CarDealership.Logic
             return saleprice;
 
         }
-
     }
 }
