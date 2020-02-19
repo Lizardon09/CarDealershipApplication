@@ -161,12 +161,12 @@ namespace CarDealership.Logic
 
                 try
                 {
-                    if (int.Parse(input) > 0 && int.Parse(input) <= DateTime.Now.Year)
+                    if (int.Parse(input) > 1885 && int.Parse(input) <= DateTime.Now.Year)
                     {
                         BoughtVehicle.Year = int.Parse(input);
                         break;
                     }
-                    Console.WriteLine($"\nValue must be greater than 0 and less than or eaqual to {DateTime.Now.Year}, please try again\n");
+                    Console.WriteLine($"\nValue must be greater than 1885 and less than or eaqual to {DateTime.Now.Year}, please try again\n");
 
                 }
                 catch (Exception ex)
@@ -180,7 +180,7 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             do
             {
-                Console.WriteLine("\nPlease enter make of vehicle (press enter if make is unknown)):\n");
+                Console.WriteLine("\nPlease input make of vehicle (press enter if make is unknown)):\n");
                 input = Console.ReadLine();
 
                 try
@@ -206,7 +206,7 @@ namespace CarDealership.Logic
             Console.WriteLine("\n---------------------------------------------\n");
             do
             {
-                Console.WriteLine("\nPlease enter model of vehicle:\n");
+                Console.WriteLine("\nPlease input model of vehicle (press enter if model is unknown):\n");
                 input = Console.ReadLine();
 
                 try
@@ -543,7 +543,7 @@ namespace CarDealership.Logic
                         Vehicles.Remove(vehicletosell);
                         if (!Vehicles.Exists(x => x.Make == vehicletosell.Make))
                             MakeFilter.Remove(vehicletosell.Make);
-                        if (!Vehicles.Exists(x => x.Make == vehicletosell.Model))
+                        if (!Vehicles.Exists(x => x.Model == vehicletosell.Model))
                             ModelFilter.Remove(vehicletosell.Model);
                         Console.WriteLine("\nPurchase Made!!");
                         break;
@@ -658,9 +658,10 @@ namespace CarDealership.Logic
             //--------------------------------------------------------------------------------------
 
             Console.WriteLine("\n---------------------------------------------\n");
-            Console.WriteLine($"\nVehicle Type: {vehicleType}" +
+            Console.WriteLine($"\nFilter Options Selected:\n" +
+                              $"\nVehicle Type: {vehicleType}" +
                               $"\nVehicle Make: {maketosort}" +
-                              $"\nVehicle Model: {modeltosort}\n\n");
+                              $"\nVehicle Model: {modeltosort}\n");
             foreach (var vehicle in Vehicles)
             {
                 if (vehicle.TypeOfVehicle == vehicleType && vehicle.Make == maketosort && vehicle.Model == modeltosort)
